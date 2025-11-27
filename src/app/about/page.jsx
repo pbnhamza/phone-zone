@@ -65,15 +65,15 @@ export default function AboutPage() {
                       href="tel:+8801888888888"
                       className="text-indigo-600 hover:underline"
                     >
-                      +880 1888-888888
+                      +880 01717-736181
                     </a>
                   </p>
                   <p className="text-gray-600 text-lg font-medium">
                     <a
-                      href="tel:+8801777777777"
+                      href="tel:+8801717736181"
                       className="text-indigo-600 hover:underline"
                     >
-                      +880 1777-777777
+                      +880 1717-736181
                     </a>
                   </p>
                 </div>

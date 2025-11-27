@@ -7,6 +7,7 @@ import {
   Globe,
   Star,
 } from "lucide-react";
+import ProductsPage from "./products/page";
 export default function Home() {
   return (
     <div className="min-h-screen items-center  bg-zinc-50 font-sans dark:bg-black">
@@ -41,6 +42,8 @@ export default function Home() {
             </div>
           </div>
         </section>
+        {/* All Product */}
+        <ProductsPage></ProductsPage>
 
         {/* Stats Section */}
         <section className="py-16 bg-gray-50">

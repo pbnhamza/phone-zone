@@ -32,6 +32,7 @@ export default function LoginPage() {
     setLoading(true);
     try {
       await signInWithPopup(auth, googleProvider);
+      router.push("/");
     } catch (err) {
       setError("Google login failed");
       setLoading(false);

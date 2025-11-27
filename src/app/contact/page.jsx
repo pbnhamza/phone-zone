@@ -65,7 +65,7 @@ export default function ContactPage() {
                         href="tel:+8801888888888"
                         className="text-indigo-600 hover:underline"
                       >
-                        +880 1888-888888
+                        +880 1717-736181
                       </a>
                     </p>
                     <p className="text-xl font-bold text-gray-800">
@@ -73,7 +73,7 @@ export default function ContactPage() {
                         href="tel:+8801777777777"
                         className="text-indigo-600 hover:underline"
                       >
-                        +880 1777-777777
+                        +880 1717-736181
                       </a>
                     </p>
                     <p className="text-sm text-gray-500 mt-1">

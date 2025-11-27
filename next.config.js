@@ -4,18 +4,23 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'i.ibb.co.com',
+        protocol: "https",
+        hostname: "i.ibb.co.com",
       },
       {
-        protocol: 'https',
-        hostname: 'i.ibb.co',
+        protocol: "https",
+        hostname: "i.ibb.co",
       },
       {
         protocol: "https",
         hostname: "lh3.googleusercontent.com",
       },
+      {
+        protocol: "http",
+        hostname: "http://localhost:5000",
+      },
     ],
+    unoptimized: true,
   },
 };
 

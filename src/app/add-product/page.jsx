@@ -3,30 +3,34 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-
 import { onAuthStateChanged } from "firebase/auth";
-import { Loader2, Plus, Image as ImageIcon, CheckCircle } from "lucide-react";
+import {
+  Loader2,
+  Plus,
+  Image as ImageIcon,
+  CheckCircle,
+  AlertCircle,
+} from "lucide-react";
 import { auth } from "../lib/firebase";
 
 export default function AddProductPage() {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
   const [user, setUser] = useState(null);
   const router = useRouter();
 
-  // Form state
   const [formData, setFormData] = useState({
     title: "",
     shortDesc: "",
     fullDesc: "",
     price: "",
     imageUrl: "",
-    date: new Date().toISOString().split("T")[0], // today
+    date: new Date().toISOString().split("T")[0],
     priority: "medium",
   });
 
-  // Protected Route: Check login
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
@@ -46,27 +50,51 @@ export default function AddProductPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
+    setError("");
+    setSuccess(false);
 
-    // এখানে Firebase/Firestore এ পণ্য যোগ করবে (পরে যোগ করবো)
-    // এখন শুধু সিমুলেশন
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    const productData = {
+      ...formData,
+      price: Number(formData.price),
+      imageUrl: formData.img || null,
+    };
 
-    setSuccess(true);
-    setSubmitting(false);
+    try {
+      const res = await fetch("http://localhost:5000/phones", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(productData),
+      });
 
-    // ৩ সেকেন্ড পর ফর্ম রিসেট + সাকসেস মেসেজ চলে যাবে
-    setTimeout(() => {
-      setSuccess(false);
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to add phones");
+      }
+
+      setSuccess(true);
+      setTimeout(() => {
+        setSuccess(false);
+        router.push("/manage-products");
+      }, 2000);
+
       setFormData({
         title: "",
         shortDesc: "",
         fullDesc: "",
         price: "",
-        imageUrl: "",
+        img: "",
         date: new Date().toISOString().split("T")[0],
         priority: "medium",
       });
-    }, 3000);
+    } catch (err) {
+      setError(err.message || "Something went wrong!");
+      console.error("Add Product Error:", err);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (loading) {
@@ -100,6 +128,14 @@ export default function AddProductPage() {
           </div>
         )}
 
+        {/* Error Toast */}
+        {error && (
+          <div className="fixed top-8 left-1/2 -translate-x-1/2 z-50 bg-red-600 text-white px-8 py-5 rounded-2xl shadow-2xl flex items-center gap-3 animate-pulse">
+            <AlertCircle className="w-8 h-8" />
+            <span className="text-xl font-bold">{error}</span>
+          </div>
+        )}
+
         {/* Form Card */}
         <div className="bg-white rounded-3xl shadow-2xl p-8 lg:p-12">
           <form onSubmit={handleSubmit} className="space-y-8">
@@ -114,7 +150,7 @@ export default function AddProductPage() {
                 value={formData.title}
                 onChange={handleChange}
                 required
-                placeholder="e.g. iPhone 16 Pro Max"
+                placeholder="Phone Title"
                 className="w-full px-6 py-5 rounded-2xl border-2 border-gray-200 focus:border-indigo-600 focus:ring-4 focus:ring-indigo-100 outline-none text-lg"
               />
             </div>
@@ -130,7 +166,7 @@ export default function AddProductPage() {
                 value={formData.shortDesc}
                 onChange={handleChange}
                 required
-                placeholder="e.g. Titanium design with A18 Pro chip"
+                placeholder="Short Description"
                 className="w-full px-6 py-5 rounded-2xl border-2 border-gray-200 focus:border-indigo-600 focus:ring-4 focus:ring-indigo-100 outline-none text-lg"
               />
             </div>
@@ -146,7 +182,7 @@ export default function AddProductPage() {
                 onChange={handleChange}
                 required
                 rows="5"
-                placeholder="Write detailed specs, features, camera, battery etc..."
+                placeholder="Description"
                 className="w-full px-6 py-5 rounded-2xl border-2 border-gray-200 focus:border-indigo-600 focus:ring-4 focus:ring-indigo-100 outline-none text-lg resize-none"
               />
             </div>
@@ -163,7 +199,7 @@ export default function AddProductPage() {
                   value={formData.price}
                   onChange={handleChange}
                   required
-                  placeholder="999"
+                  placeholder="Price"
                   className="w-full px-6 py-5 rounded-2xl border-2 border-gray-200 focus:border-indigo-600 focus:ring-4 focus:ring-indigo-100 outline-none text-lg"
                 />
               </div>

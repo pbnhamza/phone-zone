@@ -1,10 +1,9 @@
-// components/Navbar.tsx or app/components/Navbar.tsx
 "use client";
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   Menu,
   X,
@@ -17,20 +16,21 @@ import {
 
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../lib/firebase";
+import userIcon from "../../../public/user.png";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [user, setUser] = useState(null);
   const router = useRouter();
+  const pathname = usePathname();
 
-  // Listen to Firebase Auth state
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
     });
     return () => unsubscribe();
-  }, [setUser]);
+  }, []);
 
   const handleLogout = async () => {
     await signOut(auth);
@@ -45,6 +45,8 @@ export default function Navbar() {
     { name: "Contact", href: "/contact" },
     { name: "Blog", href: "/blog" },
   ];
+
+  const isActive = (href) => pathname === href;
 
   return (
     <nav className="sticky top-0 z-50 bg-purple-50 shadow-md border-b border-purple-200">
@@ -61,9 +63,17 @@ export default function Navbar() {
               <Link
                 key={link.name}
                 href={link.href}
-                className="text-gray-700 hover:text-indigo-600 font-medium transition"
+                className={`relative font-medium transition-all duration-300 ${
+                  isActive(link.href)
+                    ? "text-indigo-600 after:absolute after:bottom-[-8px] after:left-0 after:w-full after:h-1 after:bg-indigo-600 after:rounded-full"
+                    : "text-gray-700 hover:text-indigo-600"
+                }`}
               >
                 {link.name}
+                {/* Active Indicator */}
+                {isActive(link.href) && (
+                  <span className="absolute -bottom-2 left-0 w-full h-1 bg-indigo-600 rounded-full"></span>
+                )}
               </Link>
             ))}
           </div>
@@ -76,17 +86,23 @@ export default function Navbar() {
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                   className="flex items-center gap-3 bg-white rounded-xl px-4 py-2 shadow hover:shadow-md transition"
                 >
-                  {user.photoURL ? (
+                  {user?.photoURL ? (
                     <Image
                       src={user.photoURL}
-                      alt={user.displayName || "User"}
+                      alt={"#"}
                       width={36}
                       height={36}
                       className="rounded-full"
                     />
                   ) : (
                     <div className="w-9 h-9 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold">
-                      {user.displayName?.[0] || user.email?.[0] || "U"}
+                      <Image
+                        src={userIcon}
+                        alt={"#"}
+                        width={36}
+                        height={36}
+                        className="rounded-full"
+                      />
                     </div>
                   )}
                   <span className="font-medium text-gray-700">
@@ -116,7 +132,11 @@ export default function Navbar() {
 
                       <Link
                         href="/add-product"
-                        className="flex items-center px-4 py-3 hover:bg-gray-50 text-gray-700"
+                        className={`flex items-center px-4 py-3 hover:bg-gray-50 text-gray-700 ${
+                          isActive("/add-product")
+                            ? "bg-indigo-50 text-indigo-600"
+                            : ""
+                        }`}
                         onClick={() => setIsDropdownOpen(false)}
                       >
                         <Plus className="w-5 h-5 mr-3" />
@@ -124,7 +144,11 @@ export default function Navbar() {
                       </Link>
                       <Link
                         href="/manage-products"
-                        className="flex items-center px-4 py-3 hover:bg-gray-50 text-gray-700"
+                        className={`flex items-center px-4 py-3 hover:bg-gray-50 text-gray-700 ${
+                          isActive("/manage-products")
+                            ? "bg-indigo-50 text-indigo-600"
+                            : ""
+                        }`}
                         onClick={() => setIsDropdownOpen(false)}
                       >
                         <Package className="w-5 h-5 mr-3" />
@@ -132,7 +156,11 @@ export default function Navbar() {
                       </Link>
                       <Link
                         href="/profile"
-                        className="flex items-center px-4 py-3 hover:bg-gray-50 text-gray-700"
+                        className={`flex items-center px-4 py-3 hover:bg-gray-50 text-gray-700 ${
+                          isActive("/profile")
+                            ? "bg-indigo-50 text-indigo-600"
+                            : ""
+                        }`}
                         onClick={() => setIsDropdownOpen(false)}
                       >
                         <User className="w-5 h-5 mr-3" />
@@ -153,14 +181,12 @@ export default function Navbar() {
                 )}
               </div>
             ) : (
-              <div className="flex items-center gap-3">
-                <Link
-                  href="/login"
-                  className="text-white bg-indigo-600 hover:text-white font-medium px-4 py-2 rounded-2xl"
-                >
-                  Login
-                </Link>
-              </div>
+              <Link
+                href="/login"
+                className="text-white bg-indigo-600 hover:bg-indigo-700 font-medium px-6 py-2 rounded-2xl transition"
+              >
+                Login
+              </Link>
             )}
           </div>
 
@@ -182,16 +208,19 @@ export default function Navbar() {
               <Link
                 key={link.name}
                 href={link.href}
-                className="block py-2 text-gray-700 hover:text-indigo-600 font-medium"
+                className={`block py-3 text-lg font-medium transition ${
+                  isActive(link.href)
+                    ? "text-indigo-600 border-b-2 border-indigo-600"
+                    : "text-gray-700"
+                }`}
                 onClick={() => setIsOpen(false)}
               >
                 {link.name}
               </Link>
             ))}
 
-            {/* Mobile Auth */}
             {user ? (
-              <div className="pt-4 border-t border-purple-200">
+              <div className="pt-4 border-t border-purple-200 space-y-3">
                 <div className="flex items-center gap-3 mb-4">
                   {user.photoURL ? (
                     <Image
@@ -208,10 +237,45 @@ export default function Navbar() {
                   )}
                   <div>
                     <p className="font-medium">
-                      {user.displayName || user.email}
+                      {user.displayName || user.email.split("@")[0]}
                     </p>
                   </div>
                 </div>
+
+                <Link
+                  href="/add-product"
+                  className={`block py-3 ${
+                    isActive("/add-product")
+                      ? "text-indigo-600 font-bold"
+                      : "text-gray-700"
+                  }`}
+                  onClick={() => setIsOpen(false)}
+                >
+                  Add Product
+                </Link>
+                <Link
+                  href="/manage-products"
+                  className={`block py-3 ${
+                    isActive("/manage-products")
+                      ? "text-indigo-600 font-bold"
+                      : "text-gray-700"
+                  }`}
+                  onClick={() => setIsOpen(false)}
+                >
+                  Manage Products
+                </Link>
+                <Link
+                  href="/profile"
+                  className={`block py-3 ${
+                    isActive("/profile")
+                      ? "text-indigo-600 font-bold"
+                      : "text-gray-700"
+                  }`}
+                  onClick={() => setIsOpen(false)}
+                >
+                  My Profile
+                </Link>
+
                 <button
                   onClick={handleLogout}
                   className="w-full text-left py-3 text-red-600 font-medium flex items-center gap-2"
@@ -221,14 +285,13 @@ export default function Navbar() {
                 </button>
               </div>
             ) : (
-              <div className="pt-4 space-y-3">
-                <Link
-                  href="/login"
-                  className="block text-center bg-indigo-600 text-white py-3 rounded-lg font-medium"
-                >
-                  Login / Register
-                </Link>
-              </div>
+              <Link
+                href="/login"
+                className="block text-center bg-indigo-600 text-white py-4 rounded-xl font-bold text-lg"
+                onClick={() => setIsOpen(false)}
+              >
+                Login / Register
+              </Link>
             )}
           </div>
         </div>
