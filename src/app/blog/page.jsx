@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { Calendar, Clock, User, ChevronRight, Smartphone } from "lucide-react";
 
-// Sample blog posts (replace with real data later)
 const blogPosts = [
   {
     id: 1,
@@ -15,19 +14,19 @@ const blogPosts = [
     date: "November 25, 2025",
     readTime: "6 min read",
     category: "Comparison",
-    image: "/blog/iphone16-vs-s24.jpg", // put your image in public/blog/
+    image: "https://i.ibb.co.com/27HWLHgz/apple-iphone-15-pro-1.jpg",
     slug: "iphone-16-vs-samsung-s24-2025",
   },
   {
     id: 2,
-    title: "Top 5 Best Camera Phones Under ৳40,000 in Bangladesh",
+    title: "Asus-Rog-7-2 Which One Should You Buy in 2025?",
     excerpt:
       "We tested 15+ phones. These 5 give you real DSLR-like photos in 2025.",
     author: "Ayesha Islam",
     date: "November 20, 2025",
     readTime: "8 min read",
     category: "Buying Guide",
-    image: "/blog/best-camera-phones.jpg",
+    image: "https://i.ibb.co.com/CsbQ69Yc/Asus-Rog-7-2.jpg",
     slug: "best-camera-phones-under-40000",
   },
   {
@@ -39,7 +38,7 @@ const blogPosts = [
     date: "November 15, 2025",
     readTime: "5 min read",
     category: "Tips & Tricks",
-    image: "/blog/fake-iphone-guide.jpg",
+    image: "https://i.ibb.co.com/27HWLHgz/apple-iphone-15-pro-1.jpg",
     slug: "how-to-spot-fake-iphone",
   },
   {
@@ -51,7 +50,7 @@ const blogPosts = [
     date: "November 10, 2025",
     readTime: "7 min read",
     category: "Review",
-    image: "/blog/pixel-9-review.jpg",
+    image: "https://i.ibb.co.com/Vc8fLGtZ/Pixel-8-Pro-Bay-1840.jpg",
     slug: "google-pixel-9-hands-on",
   },
 ];

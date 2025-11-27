@@ -170,8 +170,6 @@ export default function Home() {
                 Browse All Phones
               </a>
             </div>
-
-            {/* Optional: Add team photos or testimonials here later */}
           </div>
         </section>
       </>

@@ -26,7 +26,7 @@ export default function AddProductPage() {
     shortDesc: "",
     fullDesc: "",
     price: "",
-    imageUrl: "",
+    img: "",
     date: new Date().toISOString().split("T")[0],
     priority: "medium",
   });
@@ -56,7 +56,7 @@ export default function AddProductPage() {
     const productData = {
       ...formData,
       price: Number(formData.price),
-      imageUrl: formData.img || null,
+      img: formData.img || null,
     };
 
     try {
@@ -77,7 +77,7 @@ export default function AddProductPage() {
       setSuccess(true);
       setTimeout(() => {
         setSuccess(false);
-        router.push("/manage-products");
+        router.push("/products");
       }, 2000);
 
       setFormData({
@@ -227,8 +227,8 @@ export default function AddProductPage() {
                 <ImageIcon className="absolute left-5 top-5 w-6 h-6 text-gray-500" />
                 <input
                   type="url"
-                  name="imageUrl"
-                  value={formData.imageUrl}
+                  name="img"
+                  value={formData.img}
                   onChange={handleChange}
                   placeholder="https://example.com/phone.jpg"
                   className="w-full pl-16 pr-6 py-5 rounded-2xl border-2 border-gray-200 focus:border-indigo-600 focus:ring-4 focus:ring-indigo-100 outline-none text-lg"
