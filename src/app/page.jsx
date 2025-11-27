@@ -8,6 +8,7 @@ import {
   Star,
 } from "lucide-react";
 import ProductsPage from "./products/page";
+import Link from "next/link";
 export default function Home() {
   return (
     <div className="min-h-screen items-center  bg-zinc-50 font-sans dark:bg-black">
@@ -26,12 +27,12 @@ export default function Home() {
                 hassle.
               </p>
               <div className="mt-10 flex justify-center gap-4">
-                <a
+                <Link
                   href="/products"
                   className="bg-white text-indigo-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition shadow-lg"
                 >
                   Shop Now
-                </a>
+                </Link>
                 <a
                   href="/contact"
                   className="border-2 border-white px-8 py-4 rounded-lg font-semibold hover:bg-white/10 transition"
@@ -163,12 +164,12 @@ export default function Home() {
               Join thousands who’ve already upgraded smarter with PhoneZone.
             </p>
             <div className="mt-10">
-              <a
+              <Link
                 href="/products"
                 className="inline-block bg-yellow-400 text-gray-900 px-10 py-4 rounded-lg font-bold text-lg hover:bg-yellow-300 transition shadow-lg"
               >
                 Browse All Phones
-              </a>
+              </Link>
             </div>
           </div>
         </section>

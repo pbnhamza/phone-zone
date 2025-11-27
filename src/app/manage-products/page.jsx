@@ -44,9 +44,12 @@ export default function ManageProductsPage() {
     setDeletingId(id);
 
     try {
-      const res = await fetch(`http://localhost:5000/phones/${id}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(
+        `https://phone-zone-server.vercel.app/phones/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
 
       setProducts((prev) => prev.filter((p) => p._id !== id));
       showToast("phone deleted successfully!", "success");
@@ -67,7 +70,7 @@ export default function ManageProductsPage() {
       }
 
       try {
-        const res = await fetch("http://localhost:5000/phones");
+        const res = await fetch("https://phone-zone-server.vercel.app/phones");
         if (!res.ok) throw new Error("Failed to load products");
         const data = await res.json();
         setProducts(data);

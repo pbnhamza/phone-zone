@@ -24,7 +24,9 @@ export default function ProductDetail() {
 
     const fetchProduct = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/phones/${id}`);
+        const res = await fetch(
+          `https://phone-zone-server.vercel.app/phones/${id}`
+        );
 
         const data = await res.json();
         setProduct(data);

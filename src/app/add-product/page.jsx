@@ -60,7 +60,7 @@ export default function AddProductPage() {
     };
 
     try {
-      const res = await fetch("http://localhost:5000/phones", {
+      const res = await fetch("https://phone-zone-server.vercel.app/phones", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

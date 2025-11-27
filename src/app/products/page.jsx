@@ -22,7 +22,7 @@ export default function ProductsPage() {
   useEffect(() => {
     const loadPhones = async () => {
       try {
-        const res = await fetch("http://localhost:5000/phones");
+        const res = await fetch("https://phone-zone-server.vercel.app/phones");
         const data = await res.json();
         setProducts(data);
       } catch (err) {
