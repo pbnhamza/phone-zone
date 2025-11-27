@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Short project description: Phone-Zone is a simple eCommerce platform for browsing, adding, and managing phones.
 
-## Getting Started
+## Short project description:
 
-First, run the development server:
+Clone the repository
+git clone https://github.com/pbnhamza/phone-zone
+cd phone-zone
 
-```bash
+Install frontend dependencies
+
+npm install
+
+Configure environment variables
+Create a .env file in the root folder:
+
+NEXTAUTH_URL=http://localhost:3000
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+
+Start the Next.js frontend
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit: http://localhost:3000
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+Setup and start the backend
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+cd server
+npm install
+node index.js
 
-## Learn More
+Backend API runs on: http://localhost:5000
 
-To learn more about Next.js, take a look at the following resources:
+Optional: Build for production
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+npm run build
+npm run start
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Route summary:
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Route              | Description                                            | Access       |
+| ------------------ | ------------------------------------------------------ | ------------ |
+| `/`                | Landing page with hero, features, and product previews | Public       |
+| `/login`           | Login/Register page with Google and credentials        | Public       |
+| `/items`           | Item List page showing all phones, search & filter UI  | Public       |
+| `/items/[id]`      | Item Details page with full description and meta       | Public       |
+| `/add-product`     | Add Product form for creating new phone listings       | Protected    |
+| `/manage-products` | Manage Products: view, delete existing phones          | Protected    |
+| `/api/auth/*`      | NextAuth.js authentication endpoints                   | Public       |
+| `/api/products`    | Backend API to get/add/delete products                 | Backend only |
